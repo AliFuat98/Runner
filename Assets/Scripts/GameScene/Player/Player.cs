@@ -12,47 +12,44 @@ public class Player : MonoBehaviour {
 
   [SerializeField] private LayerMask WhatIsGround;
 
-  private Rigidbody2D rb;
+  public Rigidbody2D Rb { get; private set; }
   private GameInput GameInput;
 
-  private bool isGrounded;
+  public bool IsGrounded { get; private set; }
 
   void Start() {
-    rb = GetComponent<Rigidbody2D>();
-    if (rb == null) {
-      Debug.LogError("player needs a rigidbody");
-    }
+    Rb = GetComponent<Rigidbody2D>();
+
     GameInput = GameInput.Instance;
 
     GameInput.OnJumpAction += GameInput_OnJumpAction;
 
     moveSpeed = 2;
-    jumpForce = 5;
+    jumpForce = 15;
   }
 
   void Update() {
     HandleMovement();
   }
-
   private void HandleMovement() {
+    IsGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, WhatIsGround);
+      
     Vector2 moveDirection = GameInput.GetMovementVector();
     if (moveDirection.x > 0) {
-      rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
+      Rb.velocity = new Vector2(moveSpeed, Rb.velocity.y);
     }
 
     if (moveDirection.x < 0) {
-      rb.velocity = new Vector2(moveSpeed * -1, rb.velocity.y);
+      Rb.velocity = new Vector2(moveSpeed * -1, Rb.velocity.y);
     }
   }
 
   private void GameInput_OnJumpAction(object sender, System.EventArgs e) {
-    isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, WhatIsGround);
-
-    if (!isGrounded) {
+    if (!IsGrounded) {
       return;
     }
 
-    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+    Rb.velocity = new Vector2(Rb.velocity.x, jumpForce);
   }
 
   private void OnDrawGizmos() {
