@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
+  public static Player Instance;
+
   [Header("Move Information")]
   [SerializeField] private float moveSpeed;
 
@@ -17,6 +19,10 @@ public class Player : MonoBehaviour {
 
   public bool IsGrounded { get; private set; }
 
+  private void Awake() {
+    Instance = this;
+  }
+
   void Start() {
     Rb = GetComponent<Rigidbody2D>();
 
@@ -24,7 +30,7 @@ public class Player : MonoBehaviour {
 
     GameInput.OnJumpAction += GameInput_OnJumpAction;
 
-    moveSpeed = 2;
+    moveSpeed = 5;
     jumpForce = 15;
   }
 
