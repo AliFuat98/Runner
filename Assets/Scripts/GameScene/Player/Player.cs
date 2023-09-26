@@ -29,9 +29,7 @@ public class Player : MonoBehaviour {
 
   void Start() {
     Rb = GetComponent<Rigidbody2D>();
-
     GameInput = GameInput.Instance;
-
     GameInput.OnJumpAction += GameInput_OnJumpAction;
   }
 
