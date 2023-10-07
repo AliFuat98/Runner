@@ -10,7 +10,7 @@ public class LevelPart : MonoBehaviour {
     playerInstance = Player.Instance;
   }
   private void Update() {
-    if (playerInstance.transform.position.x - transform.position.x > distanceToDelete) {
+    if (playerInstance.transform.position.x - EndPointTransform.position.x > distanceToDelete) {
       gameObject.SetActive(false);
     }
   }

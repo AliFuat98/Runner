@@ -17,8 +17,11 @@ public class GameInput : MonoBehaviour {
 
   public event EventHandler OnJumpAction;
 
+  public event EventHandler OnSlideAction;
+
   private void OnDestroy() {
     playerInputActions.Player.Jump.performed -= Jump_performed;
+    playerInputActions.Player.Slide.performed -= Slide_performed;
 
     playerInputActions.Dispose();
   }
@@ -33,10 +36,15 @@ public class GameInput : MonoBehaviour {
     playerInputActions.Player.Enable();
 
     playerInputActions.Player.Jump.performed += Jump_performed;
+    playerInputActions.Player.Slide.performed += Slide_performed;
   }
 
   private void Jump_performed(InputAction.CallbackContext obj) {
     OnJumpAction?.Invoke(this, EventArgs.Empty);
+  }
+
+  private void Slide_performed(InputAction.CallbackContext obj) {
+    OnSlideAction?.Invoke(this, EventArgs.Empty);
   }
 
   public Vector2 GetMovementVector(bool normalized = false) {
